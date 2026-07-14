@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebSprout – Professionelle Websites für Unternehmen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10241C;
+    --ink-soft:#1B3327;
+    --ink-soft2:#22402F;
+    --ink-line: rgba(244,242,232,0.14);
+    --paper:#EFEDE2;
+    --paper-soft:#E3E0D2;
+    --paper-soft2:#D9D6C6;
+    --paper-line: rgba(16,36,28,0.12);
+    --sprout:#7ED957;
+    --sprout-deep:#3F7D42;
+    --signal:#4457D8;
+    --coral:#D85A30;
+    --pink:#D4537E;
+    --amber:#BA7517;
+    --text-ink:#F4F2E8;
+    --text-ink-muted:#9FB3A5;
+    --text-paper:#142018;
+    --text-paper-muted:#5B6B5D;
+    --radius: 18px;
+    --wrap: 1120px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--text-paper);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    line-height:1.08;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  h1 em, h2 em, h3 em{ font-style:italic; font-weight:500; color:var(--sprout); }
+  p{margin:0;}
+  a{color:inherit; text-decoration:none;}
+  ul{margin:0; padding:0; list-style:none;}
+  img,svg{display:block; max-width:100%;}
+  .wrap{max-width:var(--wrap); margin:0 auto; padding:0 32px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:16px; height:1px;
+    background:currentColor;
+    opacity:0.55;
+  }
+  section{padding:96px 0;}
+  @media (max-width:720px){ section{padding:64px 0;} .wrap{padding:0 22px;} }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:500; font-size:15px;
+    padding:14px 26px;
+    border-radius:999px;
+    border:1px solid transparent;
+    cursor:pointer;
+    transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .25s ease;
+  }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn-primary{ background:var(--sprout); color:#0E2013; }
+  .btn-primary:hover{ background:#8FE86C; box-shadow:0 0 0 8px rgba(126,217,87,0.16); }
+  .btn-lg{ padding:19px 38px; font-size:16.5px; }
+  .btn-ghost-dark{ border-color:var(--ink-line); color:var(--text-ink); }
+  .btn-ghost-dark:hover{ border-color:var(--sprout); color:var(--sprout); }
+  .btn-ghost-light{ border-color:var(--paper-line); color:var(--text-paper); }
+  .btn-ghost-light:hover{ border-color:var(--sprout-deep); color:var(--sprout-deep); }
+
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(16,36,28,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--ink-line);
+  }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:18px 0; }
+  .logo{ display:flex; align-items:center; gap:10px; font-family:'Fraunces', serif; font-weight:600; font-size:20px; color:var(--text-ink); }
+  .logo-mark{ width:26px; height:26px; }
+  nav.links{ display:flex; gap:30px; }
+  nav.links a{ color:var(--text-ink-muted); font-size:14.5px; font-weight:500; transition:color .15s ease; }
+  nav.links a:hover{ color:var(--sprout); }
+  .nav-cta{ display:flex; align-items:center; gap:18px; }
+  @media (max-width:900px){ nav.links{ display:none; } }
+
+  .hero{ background:var(--ink); color:var(--text-ink); padding:120px 0 0; overflow:hidden; position:relative; }
+  .hero-inner{ display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center; padding-bottom:80px; }
+  @media (max-width:900px){ .hero-inner{ grid-template-columns:1fr; } }
+  .hero .eyebrow{ color:var(--sprout); margin-bottom:22px; }
+  .hero h1{ font-size:clamp(38px,5.2vw,60px); color:var(--text-ink); }
+  .hero p.lede{ margin-top:24px; font-size:18px; max-width:46ch; color:var(--text-ink-muted); }
+  .hero-cta{ display:flex; gap:16px; margin-top:38px; flex-wrap:wrap; }
+
+  .grow-scene{ position:relative; }
+  .grow-scene svg{ width:100%; height:auto; overflow:visible; }
+  .grow-stem{ stroke:var(--sprout); stroke-width:3; fill:none; stroke-dasharray:220; stroke-dashoffset:220; animation: draw 1.4s ease forwards .3s; }
+  .grow-leaf{ opacity:0; transform-origin:bottom center; animation: unfurl .7s ease forwards; }
+  .grow-leaf.l1{ animation-delay:1.0s; }
+  .grow-leaf.l2{ animation-delay:1.25s; }
+  .grow-leaf.l3{ animation-delay:1.5s; }
+  .grow-window{ opacity:0; animation: fadeUp .7s ease forwards 1.7s; }
+  .grow-line{ opacity:0; animation: fadeUp .5s ease forwards; }
+  .grow-line.gl1{ animation-delay:2.0s; }
+  .grow-line.gl2{ animation-delay:2.15s; }
+  .grow-line.gl3{ animation-delay:2.3s; }
+  .grow-phone{ opacity:0; animation: phoneUp .7s ease forwards 2.15s; }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  @keyframes unfurl{ from{ opacity:0; transform:scale(0.3) rotate(-12deg);} to{ opacity:1; transform:scale(1) rotate(0);} }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:translateY(0);} }
+  @keyframes phoneUp{ from{ opacity:0; transform:translate(0,14px);} to{ opacity:1; transform:translate(0,0);} }
+  @media (prefers-reduced-motion:reduce){
+    .grow-stem,.grow-leaf,.grow-window,.grow-line,.grow-phone{ animation:none !important; opacity:1 !important; stroke-dashoffset:0 !important; }
+  }
+
+  .stats-band{ border-top:1px solid var(--ink-line); background:var(--ink-soft); }
+  .stats-row{ display:grid; grid-template-columns:repeat(4,1fr); }
+  @media (max-width:760px){ .stats-row{ grid-template-columns:repeat(2,1fr); } }
+  .stat-cell{ padding:32px 28px; border-left:1px solid var(--ink-line); }
+  .stat-cell:first-child{ border-left:none; }
+  @media (max-width:760px){ .stat-cell:nth-child(2n+1){ border-left:none; } }
+  .stat-cell p.num{ font-family:'Fraunces', serif; font-size:34px; color:var(--sprout); }
+  .stat-cell p.label{ margin-top:6px; font-size:13px; color:var(--text-ink-muted); }
+
+  .problem{ background:var(--paper); }
+  .problem .eyebrow{ color:var(--sprout-deep); }
+  .problem-head{ max-width:640px; margin-bottom:52px; }
+  .problem-head h2{ font-size:clamp(28px,3.6vw,40px); margin-top:14px; color:var(--text-paper); }
+  .problem-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media (max-width:840px){ .problem-grid{ grid-template-columns:1fr; } }
+  .problem-card{ background:var(--paper-soft); border:1px solid var(--paper-line); border-radius:var(--radius); padding:30px 26px; transition:transform .25s ease, box-shadow .25s ease; }
+  .problem-card:hover{ transform:translateY(-6px); box-shadow:0 16px 32px rgba(20,32,24,0.10); }
+  .problem-card p.num{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--sprout-deep); margin-bottom:16px; }
+  .problem-card h3{ font-size:19px; color:var(--text-paper); font-weight:600; }
+  .problem-card p.desc{ margin-top:12px; font-size:14.5px; color:var(--text-paper-muted); }
+  .problem-consequence{ margin-top:40px; padding:22px 26px; border-radius:var(--radius); background:var(--ink); color:var(--text-ink); display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .problem-consequence p{ font-size:15.5px; color:var(--text-ink-muted); }
+  .problem-consequence strong{ color:var(--sprout); font-weight:600; }
+
+  .solution{ background:var(--ink); color:var(--text-ink); }
+  .solution .eyebrow{ color:var(--sprout); }
+  .solution-top{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:end; margin-bottom:56px; }
+  @media (max-width:820px){ .solution-top{ grid-template-columns:1fr; } }
+  .solution-top h2{ font-size:clamp(28px,3.6vw,40px); margin-top:14px; }
+  .solution-top p{ color:var(--text-ink-muted); font-size:16px; }
+  .feature-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:1px; background:var(--ink-line); border:1px solid var(--ink-line); border-radius:var(--radius); overflow:hidden; }
+  @media (max-width:960px){ .feature-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .feature-grid{ grid-template-columns:1fr; } }
+  .feature-cell{ background:var(--ink); padding:30px 24px; transition:background .2s ease, transform .2s ease; }
+  .feature-cell:hover{ background:var(--ink-soft); transform:translateY(-3px); }
+  .feature-cell .leaf-icon{ margin-bottom:18px; }
+  .feature-cell h3{ font-size:16.5px; font-weight:600; color:var(--text-ink); }
+  .feature-cell p{ margin-top:10px; font-size:13.8px; color:var(--text-ink-muted); }
+
+  .portfolio{ background:var(--paper); }
+  .portfolio .eyebrow{ color:var(--sprout-deep); }
+  .portfolio-head{ max-width:640px; margin-bottom:52px; }
+  .portfolio-head h2{ font-size:clamp(28px,3.6vw,40px); margin-top:14px; color:var(--text-paper); }
+  .portfolio-head p{ margin-top:16px; color:var(--text-paper-muted); font-size:16px; max-width:56ch; }
+  .portfolio-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+  @media (max-width:760px){ .portfolio-grid{ grid-template-columns:1fr; } }
+  .portfolio-card{ background:var(--paper-soft); border:1px solid var(--paper-line); border-radius:var(--radius); overflow:hidden; transition:transform .25s ease, box-shadow .25s ease; }
+  .portfolio-card:hover{ transform:translateY(-6px); box-shadow:0 18px 34px rgba(20,32,24,0.12); }
+  .portfolio-frame{ padding:22px 22px 0; }
+  .portfolio-body{ padding:22px 24px 26px; display:flex; align-items:flex-start; justify-content:space-between; gap:14px; }
+  .portfolio-body h3{ font-size:17.5px; font-weight:600; color:var(--text-paper); }
+  .portfolio-body p{ margin-top:6px; font-size:13.5px; color:var(--text-paper-muted); }
+  .portfolio-tag{ flex:none; font-family:'IBM Plex Mono', monospace; font-size:11px; padding:6px 10px; border-radius:999px; white-space:nowrap; }
+
+  .testimonials{ background:var(--ink); color:var(--text-ink); }
+  .testimonials .eyebrow{ color:var(--sprout); }
+  .testimonials-head h2{ font-size:clamp(28px,3.6vw,40px); margin-top:14px; max-width:640px; }
+  .testi-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:52px; }
+  @media (max-width:900px){ .testi-grid{ grid-template-columns:1fr; } }
+  .testi-card{ background:var(--ink-soft); border:1px solid var(--ink-line); border-radius:var(--radius); padding:28px 26px; display:flex; flex-direction:column; gap:16px; transition:transform .25s ease; }
+  .testi-card:hover{ transform:translateY(-5px); }
+  .stars{ display:flex; gap:3px; }
+  .testi-quote{ font-size:15px; color:var(--text-ink); line-height:1.55; }
+  .testi-who{ display:flex; align-items:center; gap:12px; margin-top:auto; }
+  .testi-avatar{ width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono', monospace; font-size:13px; font-weight:500; flex:none; }
+  .testi-who p.name{ font-size:13.5px; font-weight:500; color:var(--text-ink); }
+  .testi-who p.role{ font-size:12px; color:var(--text-ink-muted); margin-top:2px; }
+
+  .audience{ background:var(--paper); }
+  .audience .eyebrow{ color:var(--sprout-deep); }
+  .audience-head{ max-width:640px; margin-bottom:8px; }
+  .audience-head h2{ font-size:clamp(28px,3.6vw,40px); margin-top:14px; color:var(--text-paper); }
+  .audience-head p{ margin-top:16px; color:var(--text-paper-muted); font-size:16px; max-width:56ch; }
+  .audience-row{ display:grid; grid-template-columns:repeat(7,1fr); gap:14px; margin-top:44px; }
+  @media (max-width:960px){ .audience-row{ grid-template-columns:repeat(4,1fr); } }
+  @media (max-width:600px){ .audience-row{ grid-template-columns:repeat(2,1fr); } }
+  .audience-tag{ background:var(--paper-soft); border:1px solid var(--paper-line); border-radius:14px; padding:20px 14px; text-align:center; transition:transform .2s ease, border-color .2s ease; }
+  .audience-tag:hover{ transform:translateY(-4px); border-color:var(--sprout-deep); }
+  .audience-tag svg{ width:26px; height:26px; margin:0 auto 12px; }
+  .audience-tag p{ font-size:13.5px; font-weight:500; color:var(--text-paper); }
+
+  .model{ background:var(--ink); color:var(--text-ink); }
+  .model .eyebrow{ color:var(--sprout); }
+  .model-head h2{ font-size:clamp(28px,3.6vw,40px); margin-top:14px; max-width:640px; }
+  .model-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:52px; }
+  @media (max-width:760px){ .model-grid{ grid-template-columns:1fr; } }
+  .model-card{ background:var(--ink-soft); border:1px solid var(--ink-line); border-radius:var(--radius); padding:34px 30px; transition:transform .2s ease; }
+  .model-card:hover{ transform:translateY(-4px); }
+  .model-card .eyebrow{ font-size:11.5px; color:var(--text-ink-muted); }
+  .model-card h3{ font-size:23px; margin-top:14px; color:var(--text-ink); }
+  .model-card ul{ margin-top:22px; display:flex; flex-direction:column; gap:14px; }
+  .model-card li{ display:flex; align-items:flex-start; gap:12px; font-size:14.5px; color:var(--text-ink-muted); }
+  .model-card.accent{ border-color:var(--sprout); }
+  .model-card.accent h3{ color:var(--sprout); }
+
+  .usp{ background:var(--paper); }
+  .usp .eyebrow{ color:var(--sprout-deep); }
+  .usp-inner{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; align-items:start; }
+  @media (max-width:860px){ .usp-inner{ grid-template-columns:1fr; } }
+  .usp-inner h2{ font-size:clamp(28px,3.6vw,40px); margin-top:14px; color:var(--text-paper); }
+  .usp-inner > div:first-child p{ margin-top:16px; color:var(--text-paper-muted); font-size:16px; max-width:44ch; }
+  .usp-list{ display:flex; flex-direction:column; }
+  .usp-item{ display:flex; align-items:flex-start; gap:18px; padding:22px 0; border-bottom:1px solid var(--paper-line); transition:padding-left .2s ease; }
+  .usp-item:hover{ padding-left:6px; }
+  .usp-item:first-child{ padding-top:0; }
+  .usp-item .check{ flex:none; width:22px; height:22px; border-radius:50%; background:var(--sprout); display:flex; align-items:center; justify-content:center; margin-top:2px; }
+  .usp-item h3{ font-size:16.5px; font-weight:600; color:var(--text-paper); }
+  .usp-item p{ margin-top:6px; font-size:14px; color:var(--text-paper-muted); }
+
+  .team{ background:var(--ink); color:var(--text-ink); }
+  .team .eyebrow{ color:var(--sprout); }
+  .team-inner{ display:grid; grid-template-columns:0.55fr 1fr; gap:56px; align-items:center; }
+  @media (max-width:820px){ .team-inner{ grid-template-columns:1fr; } }
+  .founder-card{ background:var(--ink-soft); border:1px solid var(--ink-line); border-radius:var(--radius); padding:36px; text-align:center; }
+  .founder-avatar{ width:120px; height:120px; margin:0 auto 22px; }
+  .founder-card h3{ font-size:20px; color:var(--text-ink); }
+  .founder-card p.role{ margin-top:6px; font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:var(--sprout); }
+  .team-text h2{ font-size:clamp(28px,3.6vw,40px); margin-top:14px; }
+  .team-text p{ margin-top:18px; color:var(--text-ink-muted); font-size:16px; max-width:52ch; }
+  .team-text blockquote{ margin-top:22px; font-family:'Fraunces', serif; font-style:italic; font-size:19px; color:var(--text-ink); border-left:2px solid var(--sprout); padding-left:18px; }
+
+  .why{ background:var(--paper); color:var(--text-paper); }
+  .why .eyebrow{ color:var(--sprout-deep); }
+  .why-head{ max-width:640px; }
+  .why-head h2{ font-size:clamp(28px,3.6vw,40px); margin-top:14px; color:var(--text-paper); }
+  .why-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:52px; }
+  @media (max-width:880px){ .why-row{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .why-row{ grid-template-columns:1fr; } }
+  .why-pillar{ border-top:2px solid var(--sprout-deep); padding-top:20px; transition:border-color .2s ease; }
+  .why-pillar:hover{ border-color:var(--sprout); }
+  .why-pillar p.tag{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--text-paper-muted); }
+  .why-pillar h3{ font-size:18px; margin-top:10px; color:var(--text-paper); font-weight:600; }
+  .why-pillar p.desc{ margin-top:10px; font-size:14px; color:var(--text-paper-muted); }
+
+  .pitch{ background:var(--sprout); color:#0E2013; }
+  .pitch-inner{ max-width:820px; }
+  .pitch .eyebrow{ color:#0E2013; opacity:0.7; }
+  .pitch blockquote{ font-family:'Fraunces', serif; font-style:italic; font-weight:500; font-size:clamp(22px,3vw,30px); line-height:1.35; margin:22px 0 0; }
+  .cta-final{ text-align:center; margin-top:80px; padding-top:64px; border-top:1px solid rgba(14,32,19,0.18); }
+  .cta-final h2{ font-size:clamp(32px,5vw,52px); color:#0E2013; }
+  .cta-final p{ margin-top:16px; font-size:17px; color:rgba(14,32,19,0.72); }
+  .cta-final .btn{ margin-top:34px; }
+  .pitch .btn-primary{ background:#0E2013; color:var(--sprout); }
+  .pitch .btn-primary:hover{ background:#173B24; box-shadow:0 0 0 8px rgba(14,32,19,0.14); }
+  .pitch .btn-ghost-light{ border-color:rgba(14,32,19,0.35); color:#0E2013; margin-left:14px; }
+  .pitch .btn-ghost-light:hover{ border-color:#0E2013; }
+
+  footer{ background:var(--ink); color:var(--text-ink-muted); border-top:1px solid var(--ink-line); }
+  .footer-inner{ padding:56px 0 40px; display:flex; justify-content:space-between; align-items:flex-start; gap:32px; flex-wrap:wrap; }
+  .footer-brand .logo{ margin-bottom:14px; }
+  .footer-brand p{ font-size:13.5px; max-width:34ch; }
+  .footer-cols{ display:flex; gap:56px; flex-wrap:wrap; }
+  .footer-col h4{ font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-ink); margin:0 0 14px; }
+  .footer-col a{ display:block; font-size:14px; margin-bottom:10px; transition:color .15s ease; }
+  .footer-col a:hover{ color:var(--sprout); }
+  .footer-bottom{ border-top:1px solid var(--ink-line); padding:22px 0; font-size:12.5px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  .stagger.in > *{ transition:opacity .6s ease, transform .6s ease; }
+  @media (prefers-reduced-motion:reduce){ .reveal{ opacity:1; transform:none; transition:none; } }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="#top">
+      <svg class="logo-mark" viewBox="0 0 26 26" fill="none">
+        <path d="M13 22V13" stroke="#7ED957" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M13 13C13 13 6 13 6 6C13 6 13 13 13 13Z" fill="#7ED957"/>
+        <path d="M13 13C13 13 20 10 19 4C12 5 13 13 13 13Z" fill="#7ED957" opacity="0.7"/>
+      </svg>
+      WebSprout
+    </a>
+    <nav class="links">
+      <a href="#loesung">Leistungen</a>
+      <a href="#projekte">Projekte</a>
+      <a href="#bewertungen">Bewertungen</a>
+      <a href="#zielgruppen">Zielgruppen</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost-dark" href="#kontakt">Beratung anfragen</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap hero-inner">
+    <div>
+      <p class="eyebrow">Webdesign für kleine und mittelständische Unternehmen</p>
+      <h1>Ihre Ideen. <em>Unsere Websites.</em> Ihr Erfolg.</h1>
+      <p class="lede">WebSprout verwandelt Ihr Unternehmen in einen professionellen Online-Auftritt – individuell gestaltet, technisch sauber gebaut und dauerhaft betreut. Kein Baukasten. Kein Rätselraten.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#kontakt">Kostenloses Erstgespräch</a>
+        <a class="btn btn-ghost-dark" href="#projekte">Projekte ansehen</a>
+      </div>
+    </div>
+    <div class="grow-scene">
+      <svg viewBox="0 0 440 420" role="img" aria-label="Illustration: Aus einem Browserfenster wächst ein Sprössling, daneben eine Smartphone-Ansicht der gleichen Website.">
+        <path class="grow-stem" d="M210 340 C 208 280, 214 220, 210 170" />
+        <g class="grow-leaf l1"><path d="M210 250 C 170 240, 150 200, 165 165 C 205 175, 215 220, 210 250 Z" fill="#3F7D42"/></g>
+        <g class="grow-leaf l2"><path d="M210 220 C 250 205, 270 165, 258 130 C 218 145, 205 190, 210 220 Z" fill="#7ED957"/></g>
+        <g class="grow-leaf l3"><path d="M210 180 C 185 165, 178 130, 195 105 C 222 120, 225 160, 210 180 Z" fill="#9FE870"/></g>
+        <g class="grow-window">
+          <rect x="60" y="266" width="270" height="96" rx="14" fill="#1B3327" stroke="#3F7D42" stroke-width="1.5"/>
+          <circle cx="82" cy="287" r="4" fill="#E24B4A"/>
+          <circle cx="96" cy="287" r="4" fill="#EF9F27"/>
+          <circle cx="110" cy="287" r="4" fill="#7ED957"/>
+          <rect x="130" y="281" width="160" height="12" rx="6" fill="#10241C" stroke="#4457D8" stroke-width="1"/>
+          <rect class="grow-line gl1" x="80" y="310" width="220" height="8" rx="4" fill="#2C4C3A"/>
+          <rect class="grow-line gl2" x="80" y="326" width="170" height="8" rx="4" fill="#2C4C3A"/>
+          <rect class="grow-line gl3" x="80" y="342" width="120" height="8" rx="4" fill="#2C4C3A"/>
+        </g>
+        <g class="grow-phone">
+          <rect x="300" y="228" width="86" height="150" rx="16" fill="#142018" stroke="#7ED957" stroke-width="1.5"/>
+          <rect x="310" y="242" width="66" height="94" rx="4" fill="#1B3327"/>
+          <rect x="316" y="250" width="54" height="8" rx="4" fill="#4457D8"/>
+          <rect x="316" y="264" width="54" height="6" rx="3" fill="#2C4C3A"/>
+          <rect x="316" y="276" width="40" height="6" rx="3" fill="#2C4C3A"/>
+          <rect x="316" y="296" width="54" height="26" rx="6" fill="#7ED957" opacity="0.9"/>
+          <circle cx="343" cy="358" r="6" fill="none" stroke="#7ED957" stroke-width="1.4"/>
+        </g>
+        <ellipse cx="210" cy="376" rx="170" ry="6" fill="#F4F2E8" opacity="0.05"/>
+      </svg>
+    </div>
+  </div>
+  <div class="stats-band">
+    <div class="wrap stats-row reveal">
+      <div class="stat-cell"><p class="num" data-count="50" data-suffix="+">0</p><p class="label">abgeschlossene Projekte</p></div>
+      <div class="stat-cell"><p class="num" data-count="98" data-suffix="%">0</p><p class="label">Kundenzufriedenheit</p></div>
+      <div class="stat-cell"><p class="num" data-count="24" data-suffix="h">0</p><p class="label">durchschnittliche Antwortzeit</p></div>
+      <div class="stat-cell"><p class="num" data-count="100" data-suffix="%">0</p><p class="label">individuelles Design</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="problem" id="problem">
+  <div class="wrap">
+    <div class="problem-head reveal">
+      <p class="eyebrow">Das Problem</p>
+      <h2>Viele Betriebe sind online <em>kaum sichtbar.</em></h2>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <p class="num">01</p>
+        <h3>Veraltete oder fehlende Website</h3>
+        <p class="desc">Der erste Eindruck entscheidet – und viele Unternehmen haben keinen, der überzeugt.</p>
+      </div>
+      <div class="problem-card reveal">
+        <p class="num">02</p>
+        <h3>Schwer neue Kunden zu gewinnen</h3>
+        <p class="desc">Ohne starke Online-Präsenz bleiben Anfragen aus, die längst über Google kommen könnten.</p>
+      </div>
+      <div class="problem-card reveal">
+        <p class="num">03</p>
+        <h3>Keine Zeit, kein Fachwissen</h3>
+        <p class="desc">Der Alltag im Betrieb lässt kaum Raum, sich nebenbei in Webdesign einzuarbeiten.</p>
+      </div>
+    </div>
+    <div class="problem-consequence reveal">
+      <p>Die Folge: Unternehmen ohne professionellen Auftritt <strong>verlieren potenzielle Kunden an die Konkurrenz.</strong></p>
+    </div>
+  </div>
+</section>
+
+<section class="solution" id="loesung">
+  <div class="wrap">
+    <div class="solution-top">
+      <div class="reveal">
+        <p class="eyebrow">Unsere Lösung</p>
+        <h2>Ein professioneller <em>Online-Auftritt</em> für jeden Betrieb.</h2>
+      </div>
+      <p class="reveal">WebSprout erstellt moderne, individuell gestaltete Websites für Unternehmen – von der ersten Idee bis zur laufenden Betreuung.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-cell reveal">
+        <svg class="leaf-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 21V12" stroke="#7ED957" stroke-width="2" stroke-linecap="round"/><path d="M12 12C12 12 5 12 5 5C12 5 12 12 12 12Z" fill="#7ED957"/></svg>
+        <h3>Individuelles Webdesign</h3>
+        <p>Gestaltet nach Ihrer Marke – keine austauschbaren Vorlagen.</p>
+      </div>
+      <div class="feature-cell reveal">
+        <svg class="leaf-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 21V12" stroke="#7ED957" stroke-width="2" stroke-linecap="round"/><path d="M12 12C12 12 19 9 18 3C11 4 12 12 12 12Z" fill="#7ED957"/></svg>
+        <h3>Mobile Optimierung</h3>
+        <p>Perfekt lesbar auf Smartphone, Tablet und Desktop.</p>
+      </div>
+      <div class="feature-cell reveal">
+        <svg class="leaf-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 21V12" stroke="#7ED957" stroke-width="2" stroke-linecap="round"/><path d="M12 12C12 12 5 9 6 3C13 4 12 12 12 12Z" fill="#7ED957"/></svg>
+        <h3>Schnelle Ladezeiten</h3>
+        <p>Technisch sauber gebaut, damit Besucher nicht abspringen.</p>
+      </div>
+      <div class="feature-cell reveal">
+        <svg class="leaf-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 21V12" stroke="#7ED957" stroke-width="2" stroke-linecap="round"/><path d="M12 12C12 12 5 12 5 5C12 5 12 12 12 12Z" fill="#7ED957"/></svg>
+        <h3>Suchmaschinenoptimierung</h3>
+        <p>Damit Ihr Betrieb bei Google gefunden wird, nicht die Konkurrenz.</p>
+      </div>
+      <div class="feature-cell reveal">
+        <svg class="leaf-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 21V12" stroke="#7ED957" stroke-width="2" stroke-linecap="round"/><path d="M12 12C12 12 19 9 18 3C11 4 12 12 12 12Z" fill="#7ED957"/></svg>
+        <h3>Wartung und Updates</h3>
+        <p>Wir betreuen Ihre Website dauerhaft – Sie kümmern sich um Ihr Geschäft.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="portfolio" id="projekte">
+  <div class="wrap">
+    <div class="portfolio-head reveal">
+      <p class="eyebrow">Unsere Projekte</p>
+      <h2>Websites, die <em>wirklich</em> ankommen.</h2>
+      <p>Eine Auswahl typischer WebSprout-Projekte für unterschiedliche Branchen – jede Website individuell auf den Betrieb zugeschnitten.</p>
+    </div>
+    <div class="portfolio-grid">
+      <div class="portfolio-card reveal">
+        <div class="portfolio-frame">
+          <svg viewBox="0 0 400 220" width="100%">
+            <rect x="0" y="0" width="400" height="220" rx="12" fill="#142018"/>
+            <circle cx="18" cy="16" r="3" fill="#E24B4A"/><circle cx="30" cy="16" r="3" fill="#EF9F27"/><circle cx="42" cy="16" r="3" fill="#7ED957"/>
+            <rect x="60" y="10" width="140" height="10" rx="5" fill="#1B3327"/>
+            <rect x="20" y="34" width="360" height="70" rx="8" fill="#D85A30"/>
+            <rect x="36" y="52" width="140" height="10" rx="5" fill="#4A1B0C"/>
+            <rect x="36" y="68" width="90" height="8" rx="4" fill="#F5C4B3"/>
+            <rect x="20" y="116" width="112" height="72" rx="8" fill="#1B3327"/>
+            <rect x="144" y="116" width="112" height="72" rx="8" fill="#1B3327"/>
+            <rect x="268" y="116" width="112" height="72" rx="8" fill="#1B3327"/>
+          </svg>
+        </div>
+        <div class="portfolio-body">
+          <div><h3>Grüner Löffel</h3><p>Restaurant-Website mit Online-Speisekarte und Tischreservierung.</p></div>
+          <span class="portfolio-tag" style="background:#FAECE7; color:#4A1B0C;">Restaurant</span>
+        </div>
+      </div>
+      <div class="portfolio-card reveal">
+        <div class="portfolio-frame">
+          <svg viewBox="0 0 400 220" width="100%">
+            <rect x="0" y="0" width="400" height="220" rx="12" fill="#142018"/>
+            <circle cx="18" cy="16" r="3" fill="#E24B4A"/><circle cx="30" cy="16" r="3" fill="#EF9F27"/><circle cx="42" cy="16" r="3" fill="#7ED957"/>
+            <rect x="60" y="10" width="140" height="10" rx="5" fill="#1B3327"/>
+            <rect x="20" y="34" width="360" height="70" rx="8" fill="#D4537E"/>
+            <rect x="36" y="52" width="150" height="10" rx="5" fill="#4B1528"/>
+            <rect x="36" y="68" width="90" height="8" rx="4" fill="#F4C0D1"/>
+            <rect x="20" y="116" width="172" height="72" rx="8" fill="#1B3327"/>
+            <rect x="208" y="116" width="172" height="72" rx="8" fill="#1B3327"/>
+          </svg>
+        </div>
+        <div class="portfolio-body">
+          <div><h3>Salon Nova</h3><p>Friseursalon-Website mit Online-Terminbuchung und Leistungsübersicht.</p></div>
+          <span class="portfolio-tag" style="background:#FBEAF0; color:#4B1528;">Friseursalon</span>
+        </div>
+      </div>
+      <div class="portfolio-card reveal">
+        <div class="portfolio-frame">
+          <svg viewBox="0 0 400 220" width="100%">
+            <rect x="0" y="0" width="400" height="220" rx="12" fill="#142018"/>
+            <circle cx="18" cy="16" r="3" fill="#E24B4A"/><circle cx="30" cy="16" r="3" fill="#EF9F27"/><circle cx="42" cy="16" r="3" fill="#7ED957"/>
+            <rect x="60" y="10" width="140" height="10" rx="5" fill="#1B3327"/>
+            <rect x="20" y="34" width="360" height="70" rx="8" fill="#378ADD"/>
+            <rect x="36" y="52" width="150" height="10" rx="5" fill="#042C53"/>
+            <rect x="36" y="68" width="90" height="8" rx="4" fill="#B5D4F4"/>
+            <rect x="20" y="116" width="112" height="72" rx="8" fill="#1B3327"/>
+            <rect x="144" y="116" width="112" height="72" rx="8" fill="#1B3327"/>
+            <rect x="268" y="116" width="112" height="72" rx="8" fill="#1B3327"/>
+          </svg>
+        </div>
+        <div class="portfolio-body">
+          <div><h3>Pulsformen</h3><p>Fitnessstudio-Website mit Kursplan und Mitglieder-Anmeldung.</p></div>
+          <span class="portfolio-tag" style="background:#E6F1FB; color:#042C53;">Fitnessstudio</span>
+        </div>
+      </div>
+      <div class="portfolio-card reveal">
+        <div class="portfolio-frame">
+          <svg viewBox="0 0 400 220" width="100%">
+            <rect x="0" y="0" width="400" height="220" rx="12" fill="#142018"/>
+            <circle cx="18" cy="16" r="3" fill="#E24B4A"/><circle cx="30" cy="16" r="3" fill="#EF9F27"/><circle cx="42" cy="16" r="3" fill="#7ED957"/>
+            <rect x="60" y="10" width="140" height="10" rx="5" fill="#1B3327"/>
+            <rect x="20" y="34" width="360" height="70" rx="8" fill="#EF9F27"/>
+            <rect x="36" y="52" width="150" height="10" rx="5" fill="#412402"/>
+            <rect x="36" y="68" width="90" height="8" rx="4" fill="#FAC775"/>
+            <rect x="20" y="116" width="172" height="72" rx="8" fill="#1B3327"/>
+            <rect x="208" y="116" width="172" height="72" rx="8" fill="#1B3327"/>
+          </svg>
+        </div>
+        <div class="portfolio-body">
+          <div><h3>Meisterwerk Bau</h3><p>Website für einen Handwerksbetrieb mit Projektgalerie und Anfrageformular.</p></div>
+          <span class="portfolio-tag" style="background:#FAEEDA; color:#412402;">Handwerk</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials" id="bewertungen">
+  <div class="wrap">
+    <div class="testimonials-head reveal">
+      <p class="eyebrow">Kundenbewertungen</p>
+      <h2>Das sagen unsere Kunden</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="stars" aria-label="5 von 5 Sternen">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#7ED957"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#7ED957"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#7ED957"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#7ED957"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#7ED957"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+        </div>
+        <p class="testi-quote">„Unsere Anfragen haben sich innerhalb weniger Monate verdoppelt. Die neue Website wirkt einfach professionell.“</p>
+        <div class="testi-who">
+          <div class="testi-avatar" style="background:#2C4C3A; color:#7ED957;">SK</div>
+          <div><p class="name">Sandra Keller</p><p class="role">Inhaberin, Friseursalon</p></div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars" aria-label="5 von 5 Sternen">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#7ED957"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#7ED957"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#7ED957"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#7ED957"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#7ED957"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+        </div>
+        <p class="testi-quote">„Professionell und schnell umgesetzt. Wir hatten innerhalb von drei Wochen eine fertige Website.“</p>
+        <div class="testi-who">
+          <div class="testi-avatar" style="background:#1E2A55; color:#B5D4F4;">MR</div>
+          <div><p class="name">Markus Reiter</p><p class="role">Geschäftsführer, Handwerksbetrieb</p></div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars" aria-label="5 von 5 Sternen">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#7ED957"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#7ED957"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#7ED957"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#7ED957"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#7ED957"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+        </div>
+        <p class="testi-quote">„Endlich eine Website, die zu unserem Studio passt. Die Terminbuchung läuft komplett automatisch.“</p>
+        <div class="testi-who">
+          <div class="testi-avatar" style="background:#3A2A12; color:#FAC775;">TL</div>
+          <div><p class="name">Tina Lang</p><p class="role">Inhaberin, Fitnessstudio</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="audience" id="zielgruppen">
+  <div class="wrap">
+    <div class="audience-head reveal">
+      <p class="eyebrow">Der Markt</p>
+      <h2>Für wen wir bauen</h2>
+      <p>Die Digitalisierung wächst jedes Jahr. Diese Branchen brauchen einen starken Online-Auftritt, um wettbewerbsfähig zu bleiben.</p>
+    </div>
+    <div class="audience-row reveal">
+      <div class="audience-tag"><svg viewBox="0 0 24 24" fill="none"><path d="M4 21V9l8-6 8 6v12" stroke="#3F7D42" stroke-width="1.6"/></svg><p>Restaurants</p></div>
+      <div class="audience-tag"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#3F7D42" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="#3F7D42" stroke-width="1.6"/></svg><p>Handwerksbetriebe</p></div>
+      <div class="audience-tag"><svg viewBox="0 0 24 24" fill="none"><path d="M6 4l12 16M18 4L6 20" stroke="#3F7D42" stroke-width="1.6"/></svg><p>Friseursalons</p></div>
+      <div class="audience-tag"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="4" stroke="#3F7D42" stroke-width="1.6"/><path d="M8 10V6M16 10V6" stroke="#3F7D42" stroke-width="1.6"/></svg><p>Fitnessstudios</p></div>
+      <div class="audience-tag"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v6M9 6h6" stroke="#3F7D42" stroke-width="1.6"/><circle cx="12" cy="15" r="6" stroke="#3F7D42" stroke-width="1.6"/></svg><p>Arztpraxen</p></div>
+      <div class="audience-tag"><svg viewBox="0 0 24 24" fill="none"><path d="M4 8h16l-1.5 11h-13z" stroke="#3F7D42" stroke-width="1.6"/><path d="M8 8V6a4 4 0 018 0v2" stroke="#3F7D42" stroke-width="1.6"/></svg><p>Einzelhändler</p></div>
+      <div class="audience-tag"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-6.5L2 10h7z" stroke="#3F7D42" stroke-width="1.4"/></svg><p>Start-ups</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="model" id="modell">
+  <div class="wrap">
+    <div class="model-head reveal">
+      <p class="eyebrow">Unser Geschäftsmodell</p>
+      <h2>Einmalige Erstellung, <em>laufende Betreuung.</em></h2>
+    </div>
+    <div class="model-grid">
+      <div class="model-card reveal">
+        <p class="eyebrow">Einmalig</p>
+        <h3>Website-Erstellung</h3>
+        <ul>
+          <li>Individuelles Design und technischer Aufbau</li>
+          <li>Umsetzung innerhalb weniger Wochen</li>
+          <li>Feste, transparente Investition zu Projektbeginn</li>
+        </ul>
+      </div>
+      <div class="model-card accent reveal">
+        <p class="eyebrow">Laufend</p>
+        <h3>Wartung, Hosting &amp; SEO</h3>
+        <ul>
+          <li>Monatliches Wartungs- und Hostingpaket</li>
+          <li>Laufende Suchmaschinenoptimierung</li>
+          <li>Design- und Inhaltsaktualisierungen nach Bedarf</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="usp">
+  <div class="wrap usp-inner">
+    <div class="reveal">
+      <p class="eyebrow">Vertrauen &amp; Alleinstellung</p>
+      <h2>Warum WebSprout?</h2>
+      <p>Wir verzichten auf Baukastensysteme und Massenware. Jedes Projekt bekommt echte Aufmerksamkeit.</p>
+    </div>
+    <div class="usp-list reveal">
+      <div class="usp-item">
+        <span class="check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4 10-10" stroke="#0E2013" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><h3>Persönlicher Ansprechpartner</h3><p>Ein fester Kontakt begleitet Ihr Projekt von Anfang an.</p></div>
+      </div>
+      <div class="usp-item">
+        <span class="check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4 10-10" stroke="#0E2013" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><h3>Individuelle Websites statt Baukästen</h3><p>Jede Website wird eigens für Ihr Unternehmen entworfen.</p></div>
+      </div>
+      <div class="usp-item">
+        <span class="check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4 10-10" stroke="#0E2013" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><h3>Schnelle Fertigstellung</h3><p>Von der Planung bis zum Launch innerhalb weniger Wochen.</p></div>
+      </div>
+      <div class="usp-item">
+        <span class="check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4 10-10" stroke="#0E2013" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><h3>Transparente Preise</h3><p>Klare Pakete ohne versteckte Kosten.</p></div>
+      </div>
+      <div class="usp-item">
+        <span class="check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4 10-10" stroke="#0E2013" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><h3>Langfristige Betreuung</h3><p>Auch nach dem Launch bleiben wir an Ihrer Seite.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="team">
+  <div class="wrap team-inner">
+    <div class="founder-card reveal">
+      <svg class="founder-avatar" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="60" fill="#22402F"/>
+        <circle cx="60" cy="50" r="20" fill="#7ED957"/>
+        <path d="M20 112c4-24 20-38 40-38s36 14 40 38" fill="#3F7D42"/>
+      </svg>
+      <h3>Gründer:in von WebSprout</h3>
+      <p class="role">Gründer &amp; Ansprechpartner</p>
+    </div>
+    <div class="team-text reveal">
+      <p class="eyebrow">Der Kopf hinter WebSprout</p>
+      <h2>Ein persönlicher Ansprechpartner, <em>kein Callcenter.</em></h2>
+      <p>Vom ersten Gespräch bis zur laufenden Betreuung sprechen Sie immer mit derselben Person. Kurze Wege, klare Absprachen, echtes Interesse an Ihrem Betrieb.</p>
+      <blockquote>„Ich will, dass jeder Handwerksbetrieb, jedes Restaurant und jede Praxis online genauso überzeugt wie vor Ort.“</blockquote>
+    </div>
+  </div>
+</section>
+
+<section class="why">
+  <div class="wrap">
+    <div class="why-head reveal">
+      <p class="eyebrow">Warum wir erfolgreich werden</p>
+      <h2>Vier Dinge, die wir <em>immer</em> verbinden.</h2>
+    </div>
+    <div class="why-row">
+      <div class="why-pillar reveal">
+        <p class="tag">Gestaltung</p>
+        <h3>Modernes Design</h3>
+        <p class="desc">Websites, die zur Marke passen und im Gedächtnis bleiben.</p>
+      </div>
+      <div class="why-pillar reveal">
+        <p class="tag">Umsetzung</p>
+        <h3>Technische Qualität</h3>
+        <p class="desc">Sauberer Code, schnelle Ladezeiten, verlässlicher Betrieb.</p>
+      </div>
+      <div class="why-pillar reveal">
+        <p class="tag">Zusammenarbeit</p>
+        <h3>Persönliche Beratung</h3>
+        <p class="desc">Wir hören zu, bevor wir gestalten.</p>
+      </div>
+      <div class="why-pillar reveal">
+        <p class="tag">Betreuung</p>
+        <h3>Langfristiger Service</h3>
+        <p class="desc">Auch nach dem Launch bleiben wir an Ihrer Seite.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pitch" id="kontakt">
+  <div class="wrap pitch-inner reveal">
+    <p class="eyebrow">Unsere Vision</p>
+    <blockquote>
+      „Jedes Unternehmen verdient einen professionellen Internetauftritt. Mit WebSprout helfen wir Betrieben dabei, online sichtbar zu werden, neue Kunden zu gewinnen und nachhaltig zu wachsen.“
+    </blockquote>
+  </div>
+  <div class="wrap cta-final reveal">
+    <h2>Bereit für Ihre neue Website?</h2>
+    <p>Jetzt kostenloses Erstgespräch vereinbaren – unverbindlich und persönlich.</p>
+    <div>
+      <a class="btn btn-primary btn-lg" href="mailto:hallo@websprout.de">Kostenloses Erstgespräch anfragen</a>
+      <a class="btn btn-ghost-light" href="#projekte">Unsere Projekte ansehen</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <a class="logo" href="#top">
+        <svg class="logo-mark" viewBox="0 0 26 26" fill="none">
+          <path d="M13 22V13" stroke="#7ED957" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M13 13C13 13 6 13 6 6C13 6 13 13 13 13Z" fill="#7ED957"/>
+          <path d="M13 13C13 13 20 10 19 4C12 5 13 13 13 13Z" fill="#7ED957" opacity="0.7"/>
+        </svg>
+        WebSprout
+      </a>
+      <p>Wir bringen Unternehmen online. Professionelle Websites für kleine und mittelständische Betriebe.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Leistungen</h4>
+        <a href="#loesung">Webdesign</a>
+        <a href="#loesung">SEO</a>
+        <a href="#modell">Wartung</a>
+      </div>
+      <div class="footer-col">
+        <h4>Unternehmen</h4>
+        <a href="#projekte">Projekte</a>
+        <a href="#bewertungen">Bewertungen</a>
+        <a href="#kontakt">Kontakt</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© 2026 WebSprout</span>
+    <span>Ihre Ideen. Unsere Websites. Ihr Erfolg.</span>
+  </div>
+</footer>
+
+<script>
+  var els = document.querySelectorAll('.reveal');
+  var counted = false;
+
+  function runCounters(){
+    if (counted) return;
+    counted = true;
+    document.querySelectorAll('.stat-cell .num').forEach(function(el){
+      var target = parseInt(el.getAttribute('data-count'), 10);
+      var suffix = el.getAttribute('data-suffix') || '';
+      var start = 0;
+      var duration = 1200;
+      var startTime = null;
+      function step(ts){
+        if (!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        var value = Math.round(start + (target - start) * progress);
+        el.textContent = value + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          if (entry.target.classList.contains('stats-row')) runCounters();
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(function(el){ io.observe(el); });
+  } else {
+    els.forEach(function(el){ el.classList.add('in'); });
+    runCounters();
+  }
+</script>
+
+</body>
+</html>
